@@ -1,0 +1,109 @@
+/*
+-----------------------------------------------------------------------------
+OpenGL Tutorial
+VOXAR Labs
+Computer Science Center - CIn
+Federal University of Pernambuco - UFPE
+http://www.cin.ufpe.br/~voxarlabs
+
+Referencias:
+Funcoes de C/C++:
+	http://www.cplusplus.com/
+Copia online do Red Book (OpenGL Programming Guide):
+	http://fly.cc.fer.hr/~unreal/theredbook/
+Referencia online para os comandos OpenGL (Man pages):
+	http://www.opengl.org/sdk/docs/man/
+
+-----------------------------------------------------------------------------
+*/
+
+#include "openGL_tutorial.h"
+
+GLfloat mouse_x, mouse_y;
+GLfloat window_width = 800.0;
+GLfloat window_height = 800.0;
+
+void myreshape (GLsizei w, GLsizei h)
+{
+	glViewport(0, 0, w, h);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	window_width = (GLfloat) w;
+	window_height = (GLfloat) h;
+	glOrtho(0, window_width, window_height, 0, -1.0, -1.0);
+}
+
+// aqui o sistema de coordenadas da tela está variando de -1 a 1 no eixo x e y
+void mydisplay()
+{
+	glClearColor(0, 0, 0, 0);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	double x = 0;
+	double y = 0;
+	double size = 0.1;
+
+	glColor3f(1, 1, 1);
+
+	glBegin(GL_QUADS);
+	glVertex2f(x, y);
+	glVertex2f(x + size, y);
+	glVertex2f(x + size, y + size);
+	glVertex2f(x, y + size);
+	glEnd();
+	
+	glFlush();
+	glutPostRedisplay();
+}
+
+void handleMotion(int x, int y)
+{
+	double x = 0.2;
+	double y = 0.2;
+	double size = 0.3;
+
+	glColor3f(1, 1, 1);
+
+	glBegin(GL_QUADS);
+	glVertex2f(x, y);
+	glVertex2f(x + size, y);
+	glVertex2f(x + size, y + size);
+	glVertex2f(x, y + size);
+	glEnd();
+	
+
+}
+
+void handleMouse(int btn, int state, int x, int y)
+{
+	
+}
+
+void hadleKeyboard(unsigned char key, int x, int y)
+{
+	if(key == ESC){
+		exit(0);
+	}
+}
+
+void hadleSpecialKeyboard(int key, int x, int y)
+{
+}
+
+int main(int argc, char **argv)
+{
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+	glutInitWindowSize(window_width, window_height);
+	glutCreateWindow("OpenGL");
+
+	glutDisplayFunc(mydisplay);
+	glutReshapeFunc(myreshape);
+	glutMouseFunc(handleMouse);
+	glutMotionFunc(handleMotion);
+	glutKeyboardUpFunc(hadleKeyboard);
+	glutSpecialUpFunc(hadleSpecialKeyboard);
+
+	glutMainLoop();
+	return 0;
+}
